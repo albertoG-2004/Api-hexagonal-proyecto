@@ -1,29 +1,37 @@
 import { Request, Response } from "express";
-import { LoginUserUseCase } from "../../application/methods/LoginUserUseCase";
+import { GetUserByUsernameUseCase } from "../../application/methods/GetUserByUsernameUseCase";
 
-export class LoginUserController {
-    constructor(readonly loginUserUseCase: LoginUserUseCase){}
+export class GetUserByUsernameController {
+    constructor(readonly getUserByUsernameUseCase: GetUserByUsernameUseCase){}
 
     async run(req: Request, res: Response){
+        const username = req.params.username;
         const data = req.body;
 
+        if (!username || !data.password) {
+            return res.status(400).send({
+                status: "error",
+                message: "Both username and password are required.",
+            });
+        }
+
         try {
-            const result = await this.loginUserUseCase.run(
-                data.username,
+            const result = await this.getUserByUsernameUseCase.run(
+                username,
                 data.password
             );
             if (result) {
                 res.status(200).send({
                     status: "success",
                     data: {
-                        message: "User found"
+                        message: "User found and verified password"
                     },
                 });
             }else{
                 res.status(204).send({
                     status: "error",
                     data: {
-                        message: "User not found"
+                        message: "User not found or incorrect password"
                     },
                 });
             }

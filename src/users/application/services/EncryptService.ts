@@ -5,5 +5,5 @@ export interface EncryptService{
     authPassword(
         word: string,
         password: string
-    ): boolean;
+    ): boolean | null;
 }

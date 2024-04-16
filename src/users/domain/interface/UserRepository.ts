@@ -7,5 +7,5 @@ export interface UserRepository{
         cellPhone: string,
         password: string
     ): Promise<User | null>;
-    login(username: string, password: string): Promise<boolean | null>;
+    getUserByUsername(username: string): Promise< User | null>;
 }

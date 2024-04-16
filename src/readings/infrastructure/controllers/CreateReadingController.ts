@@ -9,7 +9,6 @@ export class CreateReadingController {
 
         try {
             const reading = await this.createreadingUseCase.run(
-                data.date,
                 data.weight
             );
 
