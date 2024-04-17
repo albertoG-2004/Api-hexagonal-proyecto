@@ -9,7 +9,7 @@ export class GetAllByDateController {
         try {
             const readings = await this.getAllByDateUseCase.run(date);
             if (readings) {
-                res.status(200).send({
+                res.status(200).json({
                     status: "success",
                     data: readings.map((reading: any) => {
                         return {

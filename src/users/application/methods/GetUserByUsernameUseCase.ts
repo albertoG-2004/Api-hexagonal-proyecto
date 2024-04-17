@@ -10,11 +10,11 @@ export class GetUserByUsernameUseCase {
         password: string
     ): Promise<boolean | null> {
         try {
-            const result: User | null = await this.userRepository.getUserByUsername(username);
+            const result: any | null = await this.userRepository.getUserByUsername(username);
             console.log("Datos ingresados: ", username, password);
             console.log("Datos de la consulta: ",result);
             if (result) {
-                const verify: boolean = await this.encryptServiceHelper.authPassword(password, result?.password);
+                const verify: boolean = await this.encryptServiceHelper.authPassword(password, result[0].password);
                 if (verify) {
                     return true;
                 }else{
