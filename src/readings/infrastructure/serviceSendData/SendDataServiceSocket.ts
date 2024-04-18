@@ -4,7 +4,7 @@ import { SendDataService } from '../../application/services/SendDataService';
 
 export class SendDataServiceSocket implements SendDataService{
     sendData(reading: Reading): string {
-        const socket = io('http://localhost:3001');
+        const socket = io('https://socketserver-proyecto.onrender.com');
 
         socket.on("connect", ()=>{
             console.log("Connected to server");
