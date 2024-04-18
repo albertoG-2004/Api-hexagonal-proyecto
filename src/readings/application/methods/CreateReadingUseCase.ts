@@ -1,9 +1,12 @@
 import { Reading } from "../../domain/entity/Reading";
 import { ReadingRepository } from "../../domain/interface/ReadingRepository";
 import { GetDateHelper } from "../../infrastructure/helpers/GetDateHelper";
+import { SendDataServiceSocket } from "../../infrastructure/serviceSendData/SendDataServiceSocket";
 
 export class CreateReadingUseCase {
-    constructor(readonly readingRepository: ReadingRepository, readonly getDateHelper: GetDateHelper){}
+    constructor(readonly readingRepository: ReadingRepository, readonly getDateHelper: GetDateHelper,
+        readonly sendDataServiceSocket: SendDataServiceSocket
+    ){}
 
     async run(
         weight: number
@@ -16,6 +19,10 @@ export class CreateReadingUseCase {
                 nowTime,
                 weight
             );
+            console.log(reading);
+            if (reading) {
+                this.sendDataServiceSocket.sendData(reading);
+            }
             return reading;
         } catch (error) {
             console.log(error);

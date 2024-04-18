@@ -20,11 +20,12 @@ export class GetUserByUsernameController {
                 username,
                 data.password
             );
-            if (result) {
+            if (result != null) {
                 res.status(200).send({
                     status: "success",
                     data: {
-                        message: "User found and verified password"
+                        message: "User found and verified password",
+                        token: result
                     },
                 });
             }else{

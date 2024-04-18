@@ -24,7 +24,7 @@ export class MySqlUserRepository implements UserRepository {
     async getUserByUsername(
         username: string
     ): Promise<User | null> {
-        const sql = "SELECT username, password FROM users WHERE username = ?";
+        const sql = "SELECT id_user, username, password FROM users WHERE username = ?";
         const params: any[] = [username];
         
         try {

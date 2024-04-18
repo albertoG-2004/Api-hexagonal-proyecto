@@ -17,6 +17,7 @@ export class CreateReadingController {
                     status: "success",
                     data: {
                         date: reading?.date,
+                        time: reading?.time,
                         weight: reading?.weight
                     },
                 });

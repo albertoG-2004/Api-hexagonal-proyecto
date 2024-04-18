@@ -1,27 +1,30 @@
 import { User } from "../../domain/entity/User";
 import { UserRepository } from "../../domain/interface/UserRepository";
 import { EncryptServiceHelper } from "../../infrastructure/helpers/EncryptServiceHelper";
+import { CreateTokenServiceHelper } from "../../infrastructure/helpers/CreateTokenServiceHelper";
 
 export class GetUserByUsernameUseCase {
-    constructor(readonly userRepository: UserRepository, readonly encryptServiceHelper: EncryptServiceHelper){}
+    constructor(readonly userRepository: UserRepository, readonly encryptServiceHelper: EncryptServiceHelper,
+        readonly createTokenServiceHelper: CreateTokenServiceHelper
+    ){}
 
     async run(
         username: string,
         password: string
-    ): Promise<boolean | null> {
+    ): Promise<string | null> {
         try {
             const result: any | null = await this.userRepository.getUserByUsername(username);
-            console.log("Datos ingresados: ", username, password);
-            console.log("Datos de la consulta: ",result);
+    
             if (result) {
                 const verify: boolean = await this.encryptServiceHelper.authPassword(password, result[0].password);
                 if (verify) {
-                    return true;
+                    const token = await this.createTokenServiceHelper.createToken(result[0].id_user);
+                    return token;
                 }else{
-                    return false;
+                    return null;
                 }
             }else{
-                return false;
+                return null;
             }
         } catch (error) {
             console.log(error);
